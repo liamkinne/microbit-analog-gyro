@@ -10,6 +10,8 @@ class AnalogGyroscope:
 		self.time_last_update = -1
 		self.angle = 0
 
+		self.pin_input.read_analog()
+
 	def zero(self, sample_time=0.5):
 		time_start = running_time()
 		values = []
