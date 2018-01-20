@@ -27,14 +27,16 @@ class AnalogGyroscope:
 		return self.angle
 
 	def update(self):
-		# calculate angle delta
-		rate = self.pin_input.read_analog()
-		rate /= 1023
-		rate *= self.voltage
-		rate -= self.zero_voltage
-		rate /= self.sensitivity
-		rate /= running_time() - self.time_last_update
-		
-		self.angle += rate # apply angle delta
+		time_delta = running_time() - self.time_last_update
+		if time_delta != 0:
+			# calculate angle delta
+			rate = self.pin_input.read_analog()
+			rate /= 1023
+			rate *= self.voltage
+			rate -= self.zero_voltage
+			rate /= self.sensitivity
+			rate /= time_delta
+			
+			self.angle += rate # apply angle delta
 
-		self.time_last_update = running_time() # remember last update
+			self.time_last_update = running_time() # remember last update
